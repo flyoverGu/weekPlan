@@ -1,0 +1,67 @@
+<div class="m_con">
+    <select v-on:change="importLastPlan">
+        <option v-for="(key, item) in allPlan" v-bind:value="key">{{key}}</option>
+    </select>
+    <div class="plan_con">
+        <div class="task_head">
+            <h1>上周工作</h1>
+        </div>
+        <week v-bind:plan="last"></week>
+    </div>
+
+    <div class="plan_con">
+        <div class="task_head">
+            <h1>本周计划</h1>
+        </div>
+        <week v-bind:plan="plan"></week>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="btn_con">
+        <span>提示：双击任务面板可删除任务</span>
+    </div>
+
+    <div class="btm_con">
+        <div>
+            <ul class="btm_nav">
+                <li data-class="preview_tab" v-bind:class="{active: currentTab=='preview_tab'}"
+                v-on:click="currentTab='preview_tab'">预览</li>
+                <li data-class="code_tab" v-bind:class="{active: currentTab=='code_tab'}" v-on:click="currentTab='code_tab'">代码</li>
+                <li data-class="html_tab" v-bind:class="{active: currentTab=='html_tab'}" v-on:click="currentTab='html_tab'">html</li>
+            </ul>
+        </div>
+        <div>
+            <div class="preview_tab v-tab" v-bind:class="{active: currentTab=='preview_tab'}">
+                <div id="preview">
+                    {{{htmlWeekPlan}}}
+                </div>
+            </div>
+            <div class="code_tab v-tab" v-bind:class="{active: currentTab=='code_tab'}">
+                <textarea name="" id="serializedCode" v-model="stringWeekPlan"></textarea>
+            </div>
+            <div class="html_tab v-tab" v-bind:class="{active: currentTab=='html_tab'}">
+                <textarea name="" id="htmlCode" v-model="htmlWeekPlan"></textarea>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="overlay">
+    <div class="name_con">
+        <table>
+            <tr>
+                <td>姓名</td>
+                <td>
+                    <input type="text" id="username">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button v-on:click="setName">确定</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

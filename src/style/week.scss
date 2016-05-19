@@ -15,7 +15,7 @@ body{
 	padding-bottom: 40px;
 	background-color: #F5F5F5;
 }
-.button(){
+.button {
 	background-color: #89ABCE;
 	border-radius: 3px;
 	border-width: 0;
@@ -100,7 +100,7 @@ body{
 				padding-bottom: 5px;
 				width: 253px;
 			}
-			.form_common(){
+			.form_common{
 				border: 1px solid #D8D8DA;
 				border-radius: 2px;
 				outline: none;
@@ -110,17 +110,17 @@ body{
 				font-size: 14px;
 			}
 			input{
-				.form_common;
+				@extend .form_common;
 				height: 25px;
 				width: 242px;
 			}
 			select{
-				.form_common;
+				@extend .form_common;
 				height: 25px;
 				width: 250px;
 			}
 			textarea{
-				.form_common;
+				@extend .form_common;
 				resize:none;
 				width: 242px;
 				overflow-y: auto;
@@ -145,7 +145,7 @@ body{
 		font-family: 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'tohoma,sans-serif';
 	}
 	input{
-		.button;
+		@extend .button;
 		width: 120px;
 		height: 40px;
 		font-size: 17px;
@@ -200,7 +200,6 @@ body{
 		}
 	}
 	.code_tab,.html_tab{
-		display: none;
 		margin: 5px;
 		padding-bottom: 10px;
 		text-align: right;
@@ -220,8 +219,15 @@ body{
 			outline: none;
 		}
 	}
+
+    .v-tab {
+        display: none;
+        &.active {
+            display: block;
+        }
+    }
 	input{
-		.button;
+		@extend .button;
 		width: 120px;
 		height: 40px;
 		font-size: 17px;
@@ -281,7 +287,7 @@ body{
 				width: 100%;
 			}
 			button{
-				.button;
+				@extend .button;
 				width: 154px;
 				height: 40px;
 				font-size: 17px;

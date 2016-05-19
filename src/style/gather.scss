@@ -13,7 +13,7 @@ body{
 	padding-bottom: 40px;
 	background-color: #F5F5F5;
 }
-.button(){
+.button {
 	background-color: #89ABCE;
 	border-radius: 3px;
 	border-width: 0;
@@ -31,7 +31,7 @@ body{
 	text-align: right;
 
 	input{
-		.button;
+		@extend .button;
 		width: 120px;
 		height: 40px;
 		font-size: 17px;
@@ -109,7 +109,7 @@ body{
 		}
 	}
 	input{
-		.button;
+		@extend .button;
 		width: 120px;
 		height: 40px;
 		font-size: 17px;

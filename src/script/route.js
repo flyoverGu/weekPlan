@@ -1,27 +1,25 @@
 var Vue = require('vue')
 var VueRouter = require('vue-router')
+window.Vue = Vue;
+
+require('./directive');
+
+var Plan = require('./view/plan');
+//var Gather = require('./view/gather');
 
 Vue.use(VueRouter);
-
-var Foo = Vue.extend({
-    template: '<p>This is foo!</p>'
-})
-
-var Bar = Vue.extend({
-    template: '<p>This is bar!</p>'
-})
 
 var App = Vue.extend({})
 
 var router = new VueRouter()
 
 router.map({
-    '/foo': {
-        component: Foo
+    '/week': {
+        component: Plan
     },
-    '/bar': {
-        component: Bar
-    }
+    //'/gather': {
+    //    component: Gather
+    //}
 })
 
 router.start(App, '#app')

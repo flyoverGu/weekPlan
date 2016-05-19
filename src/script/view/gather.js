@@ -1,3 +1,7 @@
+module.exports = Vue.extend({
+    template: require('../template/gather.html')
+});
+
 $(function(){
 
 	$("#serializedCode").focus();
