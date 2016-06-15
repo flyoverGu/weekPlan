@@ -1,0 +1,26 @@
+.nav {
+    background: #54D09F;
+    width: 100%;
+    height: 6rem;
+}
+.main {
+    position: fixed;
+    top: 6rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+[contenteditable=true]:focus {
+    outline: none;
+}
+
+[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color: #979797;
+}
+
+input,button,select,textarea{outline:none}
+textarea{resize:none}
+

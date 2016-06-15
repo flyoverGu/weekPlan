@@ -1,0 +1,37 @@
+<div class="task-view" v-bind:class="{ 't-close': isClose}" v-on:mouseenter="active = !active" v-on:mouseleave="active = !active">
+    <div class="task-title">
+        <div class="task-status">
+        </div>
+        <input type="text" class="title" v-model="title" placeholder="任务...">
+        <div class="show-detail-icon switch-icon" v-on:click="isClose=!isClose">
+            <i v-show="!isClose" class="icon-down"></i>
+            <i v-show="isClose" class="icon-left"></i>
+        </div>
+        <div class="delete-task" v-on:click="deleteTask" v-show="active">
+            <i class="icon-delete-task"></i>
+        </div>
+    </div>
+    <div class="task-detail transition-all">
+        <div class="inner">
+            <div class="select-option-list">
+                <div class="select-option-item">
+                    <span class="font-12">平台</span>
+                    <v-select :value.sync="project" :options="projectOptions" :close-on-select="true"></v-select>
+                </div>
+                <div class="select-option-item">
+                    <span class="font-12">项目</span>
+                    <v-select :value.sync="subProject" :options="subProjectOptions" :close-on-select="true"></v-select>
+                </div>
+                <div class="select-option-item">
+                    <span class="font-12">应用平台</span>
+                    <v-select :value.sync="projectType" :options="projectTypeOptions" :close-on-select="true"></v-select>
+                </div>
+                <div class="select-option-item">
+                    <span class="font-12">状态</span>
+                    <v-select :value.sync="status" :options="statusOptions" :close-on-select="true"></v-select>
+                </div>
+            </div>
+            <textarea class="task-comment" v-model="comment" placeholder="备注..."></textarea>
+        </div>
+    </div>
+</div>

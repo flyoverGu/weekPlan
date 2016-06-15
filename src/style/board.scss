@@ -1,0 +1,22 @@
+.board-view {
+    height: 100%;
+    padding: 0 1rem;
+
+    .add-week {
+        cursor: pointer;
+        display: inline-block;
+    }
+}
+
+.plan-view {
+    width: 100%;
+    padding: 3rem 0;
+    height: 100%;
+    overflow: auto;
+    float: left;
+
+    .plan-list-view {
+        height: 100%;
+    }
+}
+

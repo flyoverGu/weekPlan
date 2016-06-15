@@ -1,0 +1,30 @@
+[class^="icon-"] {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.icon-down {
+    background: url('../svg/circle-down.svg');
+    background-size: 2rem 2rem;
+}
+
+.icon-left {
+    background: url('../svg/circle-left.svg');
+    background-size: 2rem 2rem;
+}
+
+.icon-delete-svg {
+    background: url('../svg/cancel-circle.svg');
+}
+
+.icon-delete-week {
+    @extend .icon-delete-svg;
+    background-size: 2rem 2rem;
+}
+
+.icon-delete-task {
+    @extend .icon-delete-svg;
+    background-size: 1rem 1rem;
+}

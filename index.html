@@ -9,14 +9,20 @@
 
 <body>
     <div id="app">
-        <p>
-            <a v-link="{ path: '/week' }">周报</a>
-            <a v-link="{ path: '/gather' }">Go to gather</a>
-        </p>
-        <!-- use router-view element as route outlet -->
-        <router-view></router-view>
+        <div class="nav">
+            <p>
+                <a v-link="{ path: '/board' }">周报</a>
+                <a v-link="{ path: '/old' }">生成/导入老周报</a>
+            </p>
+        </div>
+        <div class="main">
+            <router-view></router-view>
+        </div>
     </div>
 </body>
-<script src="./node_modules/jquery/dist/jquery.js"></script>
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/vuex/dist/vuex.js"></script>
+
 <script src="./dist/app.js"></script>
+
 </html>

@@ -1,0 +1,91 @@
+
+.border-gery {
+    border-radius: 0.5rem;
+    border: solid 1px #979797;
+}
+
+
+.task-view {
+
+    background: #fff;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+
+
+    .task-title {
+        height: 4rem;
+        border-radius: 0.5rem;
+        padding-top: 0.5rem;
+        box-shadow: .1rem .1rem .2rem rgba(0,0,0,0.2);
+        .task-status {
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+        }
+        .title {
+            display: inline-block;
+            width: 76%;
+            border: none;
+        }
+    }
+    
+    &.t-close {
+        .task-detail {
+            height: 0;
+            margin-top: 0rem;
+        }
+        .task-comment, .select-option-list {
+            display: none;
+        }
+    }
+
+    .task-detail {
+        background: #fff;
+        border-radius: 0.5rem;
+        height: 20rem;
+        margin-top: 1rem;
+        .inner {
+            padding: 0.5rem;
+        }
+        .task-comment {
+            width: 100%;
+            padding: 0.3rem;
+            height: 11rem;
+            overflow: auto;
+            @extend .border-gery;
+        }
+        .select-option-list {
+            @extend .border-gery;
+            height: 6rem;
+            margin-bottom: 1rem;
+        }
+        .select-option-item {
+            float: left;
+            width: 25%;
+            height: 100%;
+            border-right: solid #979797 1px;
+            padding-left: .5rem;
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    .show-detail-icon {
+        float: right;
+        margin-top: 0.5rem;
+        margin-right: 1.5rem;
+        height: 2rem;
+        width: 2rem;
+    }
+
+
+    .delete-task {
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: -0.5rem;
+        right: 0;
+    }
+}

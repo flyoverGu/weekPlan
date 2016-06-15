@@ -1,0 +1,11 @@
+<div class="board-view">
+    <div class="plan-view">
+        <div class="plan-list-view">
+            <week v-for="week in weekList" v-bind:week="week">
+            </week>
+            <a class="add-week" v-on:click="addWeek">
+                <h3>增加新计划</h3>
+            </a>
+        </div>
+    </div>
+</div>

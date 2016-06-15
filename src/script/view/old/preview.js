@@ -1,0 +1,95 @@
+var action = require('../../action');
+
+module.exports = Vue.extend({
+    template: require('../../template/preview.html'),
+
+    vuex: {
+        getters: {
+            state: function(state) {
+                return state;
+            }
+        },
+        actions: {
+            _updateState: action.updateState
+        }
+    },
+
+    computed: {
+        code: function() {
+            return JSON.stringify(transformToOld(this.state)) + ';;';
+        },
+        html: function() {
+            return parseReport(transformToOld(this.state));
+        }
+    },
+
+    methods: {
+        importData: function() {
+            this._updateState(transformToNew(this.code));
+        }
+    }
+});
+
+var transformToNew = function(data) {
+    data = JSON.parse(data.replace(';;', ''));
+    var name = data.name;
+    var date = data.date;
+    var taskList = data.plan;
+    return {
+        name: name,
+        weekList: [{
+            date: date,
+            taskList: taskList
+        }]
+    }
+}
+
+var transformToOld = function(data) {
+    var name = data.name;
+    var _len = data.weekList.length;
+    var plan = data.weekList[_len - 1];
+    var last = data.weekList[_len - 2];
+    var date = plan.date;
+    return {
+        name: name,
+        date: date,
+        last: last.taskList,
+        plan: plan.taskList
+    }
+}
+
+/**
+ * 报表对象解析成报表
+ * @param reportOjb 报表对象
+ * return 报表html
+ */
+var parseReport = function(reportObj) {
+    var hl = "",
+        i, j, obj, head,
+        comTdCss = 'border: solid 1px #DDD;background-color: #F7F7F7;padding: 4px 12px;font-family: monospace;font-size: 12px;',
+        tableSty = ' style="margin: 15px;width: 765px;border-collapse:collapse;border-spacing: 0; text-align: left;" ',
+        h2Sty = ' style="color:#888;text-align: left;font-size: 16px;padding: 5px 15px 0 15px;margin:0;" ',
+        firstTrTdSty = ' style="text-align: center;background-color: #999;color: #FFF;border: solid 1px #DDD;font-weight: normal;font-family: \'Microsoft YaHei\', \'WenQuanYi Micro Hei\', \'tohoma,sans-serif\';" ',
+        tdComSty = ' style="min-width: 40px;text-align:center;color: #888;' + comTdCss + '" ',
+        tdComLeftSty = ' style="min-width: 40px;text-align:left;color: #888;' + comTdCss + '" ',
+        tdComCenSty = ' style="min-width: 60px;text-align: center;color: #888;' + comTdCss + '" ',
+        tdFirstSty = ' style="min-width: 40px;text-align:center;color:#258AAF;' + comTdCss + '" ';
+    head = '<table ' + tableSty + '>' + '<tr>' + '<td ' + firstTrTdSty + '>平台</td>' + '<td ' + firstTrTdSty + '>项目</td>' + '<td ' + firstTrTdSty + '>类型</td>' + '<td ' + firstTrTdSty + '>任务</td>' + '<td ' + firstTrTdSty + '>状态</td>' + '<td ' + firstTrTdSty + '>备注</td>' + '</tr>';
+    if (reportObj.last.length) {
+        hl = '<h2 ' + h2Sty + '>上周工作：</h2>' + head;
+        for (i = 0, j = reportObj.last.length; i < j; i++) {
+            obj = reportObj.last[i]
+            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
+        }
+        hl += '</table>';
+    };
+    if (reportObj.plan.length) {
+        hl += '<h2 ' + h2Sty + '>本周计划：</h2>' + head;
+        for (i = 0, j = reportObj.plan.length; i < j; i++) {
+            obj = reportObj.plan[i]
+            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
+        }
+        hl += '</table>';
+    };
+    return hl;
+}

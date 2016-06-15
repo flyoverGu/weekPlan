@@ -1,67 +1,15 @@
-<div class="task_tab">
-    <ul data-position="left">
-        <li v-for="(index, item) in taskList" v-on:dblclick="deleteTask(index)" v-on:click="selectTask(index)" v-bind:class="{active: index==currentIndex}">
-            任务{{index + 1}}
-        </li>
-        <li data-index="last" v-on:click="addTask">+</li>
-    </ul>
-</div>
-<div class="task_dash">
-    <div v-if="currentTask">
-        <form action="">
-            <input type="hidden" name="reportType" value="lastWeek">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>平台</td>
-                        <td>
-                            <select name="project" v-model="currentTask.project" v-on:change="changeProject">
-                                <option v-for="item in projectList" v-diy:selected="item==currentTask.project"
-                                v-bind:value="item">{{item}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>项目</td>
-                        <td>
-                            <select name="subProject" v-model="currentTask.subProject">
-                                <option v-for="item in subProject" v-bind:value="item">{{item}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>类型</td>
-                        <td>
-                            <select name="projectType" v-model="currentTask.projectType">
-                                <option v-bind:value="'pc'">PC</option>
-                                <option v-bind:value="'移动'">移动</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>任务名称</td>
-                        <td>
-                            <input type="text" name="task" v-model="currentTask.task">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>任务状态</td>
-                        <td>
-                            <select name="status" v-model="currentTask.status">
-                                <option v-bind:value="'进行中'">进行中</option>
-                                <option v-bind:value="'已完成'">已完成</option>
-                                <option v-bind:value="'未开始'">未开始</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>备注</td>
-                        <td>
-                            <textarea name="comment" cols="30" rows="5" v-model="currentTask.comment"></textarea>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+<div class="week-view" v-on:mouseenter="active = !active" v-on:mouseleave="active = !active">
+    <div class="week-title">
+        <input class="date-input" type="text" v-model="week.date">计划
+    </div>
+    <div class="week-delete" v-on:click="deleteWeek" v-show="active">
+        <i class="icon-delete-week"></i>
+    </div>
+    <div class="task-list">
+        <task v-for="(index, task) in week.taskList" v-bind:task.sync="task" v-bind:task-index="index"
+        :date="week.date"></task>
+        <div class="add-task" v-on:click="addTask">
+            + 增加任务
+        </div>
     </div>
 </div>

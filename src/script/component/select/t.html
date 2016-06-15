@@ -1,0 +1,25 @@
+<div class="btn-group" v-bind:class="{open: show}">
+    <button v-el:btn type="button" class="btn btn-default dropdown-toggle btn-sm" @click="toggleDropdown"
+    @blur="show = (search ? show : false)" v-bind="{disabled: disabled}">
+        <span class="btn-placeholder" v-show="showPlaceholder">{{placeholder}}</span>
+        <span class="btn-content">{{ selectedItems }}</span>
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <template v-if="options.length">
+            <li v-if="search" class="bs-searchbox">
+                <input type="text" placeholder="Search" v-model="searchText" class="form-control"
+                autocomplete="off">
+            </li>
+            <li v-for="option in options | filterBy searchText " v-bind:id="option" style="position:relative">
+                <a @mousedown.prevent="select(option)" style="cursor:pointer">
+            {{ option }}
+            <span class="glyphicon glyphicon-ok check-mark" v-show="isSelected(option)"></span>
+          </a>
+            </li>
+        </template>
+        <slot v-else></slot>
+        <div class="notify" v-show="showNotify" transition="fadein">Limit reached ({{limit}} items max).
+        </div>
+    </ul>
+</div>
