@@ -3469,7 +3469,7 @@
 	            statusOptions: statusOptions,
 	            projectTypeOptions: projectTypeOptions,
 	            isClose: true,
-	            project: this.task.project,
+	            project: [this.task.project],
 	            subProject: this.task.subProject,
 	            projectType: this.task.projectType,
 	            status: this.task.status,
@@ -3486,8 +3486,9 @@
 	    },
 
 	    watch: {
-	        project: function() {
-	            this.subProject = [map[this.project][0]];
+	        project: function(newV, oldV) {
+	            var t = map[this.project][0];
+	            this.subProject = [t];
 	            this._commonUpdate({
 	                project: this.project[0]
 	            });
@@ -3772,8 +3773,9 @@
 	        saveLocal();
 	    },
 	    updateState: function(state, newState) {
-	        debug(newState);
-	        state = newState;
+	        debug(JSON.stringify(newState));
+	        state.name = newState.name;
+	        state.weekList = newState.weekList;
 	        saveLocal();
 	    }
 	}
@@ -4187,7 +4189,7 @@
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"preview-view\">\n    <h3>代码</h3>\n    <div class=\"code\">\n        <textarea>{{code}}</textarea>\n        <input type=\"button\" value=\"导入\" v-on:click=\"importData\">\n    </div>\n    <h3>预览</h3>\n    <div class=\"html\">\n        {{{html}}}\n    </div>\n</div>\n";
+	module.exports = "<div class=\"preview-view\">\n    <h3>代码</h3>\n    <div class=\"code\">\n        <textarea v-model=\"code\"></textarea>\n        <input type=\"button\" value=\"导入\" v-on:click=\"importData\">\n    </div>\n    <h3>预览</h3>\n    <div class=\"html\">\n        {{{html}}}\n    </div>\n</div>\n";
 
 /***/ },
 /* 26 */
@@ -4219,24 +4221,36 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var action = __webpack_require__(8);
+	var debug = __webpack_require__(4)('preview');
 
 	module.exports = Vue.extend({
 	    template: __webpack_require__(25),
 
 	    vuex: {
 	        getters: {
-	            state: function(state) {
-	                return state;
-	            }
+	            weekList: state => state.weekList,
+	            name: state => state.name
 	        },
 	        actions: {
 	            _updateState: action.updateState
 	        }
 	    },
 
+	    data: function() {
+	        return {
+	            code: JSON.stringify(transformToOld({
+	                name: this.state,
+	                weekList: this.weekList
+	            })) + ';;'
+	        }
+	    },
+
 	    computed: {
-	        code: function() {
-	            return JSON.stringify(transformToOld(this.state)) + ';;';
+	        state: function() {
+	            return {
+	                name: this.name,
+	                weekList: this.weekList
+	            }
 	        },
 	        html: function() {
 	            return parseReport(transformToOld(this.state));
@@ -4251,10 +4265,10 @@
 	});
 
 	var transformToNew = function(data) {
-	    data = JSON.parse(data.replace(';;', ''));
-	    var name = data.name;
-	    var date = data.date;
-	    var taskList = data.plan;
+	    var json = JSON.parse(data.replace(';;', '')) || {};
+	    var name = json.name;
+	    var date = json.date;
+	    var taskList = json.plan;
 	    return {
 	        name: name,
 	        weekList: [{
@@ -4265,16 +4279,17 @@
 	}
 
 	var transformToOld = function(data) {
-	    var name = data.name;
-	    var _len = data.weekList.length;
-	    var plan = data.weekList[_len - 1];
-	    var last = data.weekList[_len - 2];
+	    var json = JSON.parse(JSON.stringify(data)) || {};
+	    var name = json.name;
+	    var _len = json.weekList.length;
+	    var plan = json.weekList[_len - 1];
+	    var last = json.weekList[_len - 2];
 	    var date = plan.date;
 	    return {
 	        name: name,
 	        date: date,
-	        last: last.taskList,
-	        plan: plan.taskList
+	        last: last && last.taskList || [],
+	        plan: plan && plan.taskList || []
 	    }
 	}
 

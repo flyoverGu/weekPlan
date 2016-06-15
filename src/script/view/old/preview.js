@@ -1,22 +1,34 @@
 var action = require('../../action');
+var debug = require('debug')('preview');
 
 module.exports = Vue.extend({
     template: require('../../template/preview.html'),
 
     vuex: {
         getters: {
-            state: function(state) {
-                return state;
-            }
+            weekList: state => state.weekList,
+            name: state => state.name
         },
         actions: {
             _updateState: action.updateState
         }
     },
 
+    data: function() {
+        return {
+            code: JSON.stringify(transformToOld({
+                name: this.state,
+                weekList: this.weekList
+            })) + ';;'
+        }
+    },
+
     computed: {
-        code: function() {
-            return JSON.stringify(transformToOld(this.state)) + ';;';
+        state: function() {
+            return {
+                name: this.name,
+                weekList: this.weekList
+            }
         },
         html: function() {
             return parseReport(transformToOld(this.state));
@@ -31,10 +43,10 @@ module.exports = Vue.extend({
 });
 
 var transformToNew = function(data) {
-    data = JSON.parse(data.replace(';;', ''));
-    var name = data.name;
-    var date = data.date;
-    var taskList = data.plan;
+    var json = JSON.parse(data.replace(';;', '')) || {};
+    var name = json.name;
+    var date = json.date;
+    var taskList = json.plan;
     return {
         name: name,
         weekList: [{
@@ -45,16 +57,17 @@ var transformToNew = function(data) {
 }
 
 var transformToOld = function(data) {
-    var name = data.name;
-    var _len = data.weekList.length;
-    var plan = data.weekList[_len - 1];
-    var last = data.weekList[_len - 2];
+    var json = JSON.parse(JSON.stringify(data)) || {};
+    var name = json.name;
+    var _len = json.weekList.length;
+    var plan = json.weekList[_len - 1];
+    var last = json.weekList[_len - 2];
     var date = plan.date;
     return {
         name: name,
         date: date,
-        last: last.taskList,
-        plan: plan.taskList
+        last: last && last.taskList || [],
+        plan: plan && plan.taskList || []
     }
 }
 

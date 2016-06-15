@@ -45,8 +45,9 @@ var mutations = {
         saveLocal();
     },
     updateState: function(state, newState) {
-        debug(newState);
-        state = newState;
+        debug(JSON.stringify(newState));
+        state.name = newState.name;
+        state.weekList = newState.weekList;
         saveLocal();
     }
 }

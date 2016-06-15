@@ -23,7 +23,7 @@ module.exports = Vue.extend({
             statusOptions: statusOptions,
             projectTypeOptions: projectTypeOptions,
             isClose: true,
-            project: this.task.project,
+            project: [this.task.project],
             subProject: this.task.subProject,
             projectType: this.task.projectType,
             status: this.task.status,
@@ -40,8 +40,9 @@ module.exports = Vue.extend({
     },
 
     watch: {
-        project: function() {
-            this.subProject = [map[this.project][0]];
+        project: function(newV, oldV) {
+            var t = map[this.project][0];
+            this.subProject = [t];
             this._commonUpdate({
                 project: this.project[0]
             });
