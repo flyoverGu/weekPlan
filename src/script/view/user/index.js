@@ -7,7 +7,6 @@ module.exports = Vue.extend({
     vuex: {
         getters: {
             _name: state => {
-                debug('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', state.name);
                 return state.name;
             }
         },
@@ -17,14 +16,14 @@ module.exports = Vue.extend({
     },
 
     computed: {
-        name: () => this._name,
-        //name: {
-        //    get: () => {
-        //        debug('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', this._name);
-        //        return this._name
-        //    },
-        //    set: newValue => this._updateName(newValue)
-        //}
+        name: {
+            get: function() {
+                return this._name
+            },
+            set: function(newValue) {
+                this._updateName(newValue);
+            }
+        }
     }
 
 });
