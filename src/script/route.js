@@ -2,16 +2,16 @@ var VueRouter = require('vue-router')
 
 require('./directive');
 
-//var Plan = require('./view/plan');
-//var Gather = require('./view/gather');
 var Board = require('./view/board');
 var Old = require('./view/old');
 
 Vue.use(VueRouter);
-//Vue.use(Vuex);
 
 var App = Vue.extend({
-    store: require('./store')
+    store: require('./store'),
+    components: {
+        user: require('./view/user')
+    }
 })
 
 var router = new VueRouter()

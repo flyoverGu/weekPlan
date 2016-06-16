@@ -17,7 +17,7 @@ module.exports = Vue.extend({
     data: function() {
         return {
             code: JSON.stringify(transformToOld({
-                name: this.state,
+                name: this.name,
                 weekList: this.weekList
             })) + ';;'
         }

@@ -44,6 +44,10 @@ var mutations = {
         }
         saveLocal();
     },
+    updateName: function(state, name) {
+        state.name = name;
+        saveLocal();
+    },
     updateState: function(state, newState) {
         debug(JSON.stringify(newState));
         state.name = newState.name;

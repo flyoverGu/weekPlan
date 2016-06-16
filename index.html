@@ -10,10 +10,11 @@
 <body>
     <div id="app">
         <div class="nav">
-            <p>
-                <a v-link="{ path: '/board' }">周报</a>
-                <a v-link="{ path: '/old' }">生成/导入老周报</a>
-            </p>
+            <div class="router">
+                <a v-link="{ path: '/board' }"><h4>周报</h4></a>
+                <a v-link="{ path: '/old' }"><h4>生成/导入老周报</h4></a>
+            </div>
+            <user></user>
         </div>
         <div class="main">
             <router-view></router-view>

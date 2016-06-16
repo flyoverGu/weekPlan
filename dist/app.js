@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(18);
+	__webpack_require__(23);
 
 
 /***/ },
@@ -56,16 +56,16 @@
 
 	__webpack_require__(3);
 
-	//var Plan = require('./view/plan');
-	//var Gather = require('./view/gather');
 	var Board = __webpack_require__(7);
-	var Old = __webpack_require__(27);
+	var Old = __webpack_require__(17);
 
 	Vue.use(VueRouter);
-	//Vue.use(Vuex);
 
 	var App = Vue.extend({
-	    store: __webpack_require__(16)
+	    store: __webpack_require__(21),
+	    components: {
+	        user: __webpack_require__(22)
+	    }
 	})
 
 	var router = new VueRouter()
@@ -3321,10 +3321,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var action = __webpack_require__(8);
-	var util = __webpack_require__(17);
+	var util = __webpack_require__(9);
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(9),
+	    template: __webpack_require__(10),
 
 	    vuex: {
 	        actions: {
@@ -3338,7 +3338,7 @@
 	    },
 
 	    components: {
-	        week: __webpack_require__(10),
+	        week: __webpack_require__(11),
 	    },
 
 	    methods: {
@@ -3366,7 +3366,8 @@
 	    addTask: makeAction('addTask'),
 	    deleteTask: makeAction('deleteTask'),
 	    updateTask: makeAction('updateTask'),
-	    updateState: makeAction('updateState')
+	    updateState: makeAction('updateState'),
+	    updateName: makeAction('updateName')
 	}
 
 	function makeAction(type) {
@@ -3380,16 +3381,27 @@
 /* 9 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"board-view\">\n    <div class=\"plan-view\">\n        <div class=\"plan-list-view\">\n            <week v-for=\"week in weekList\" v-bind:week=\"week\">\n            </week>\n            <a class=\"add-week\" v-on:click=\"addWeek\">\n                <h3>增加新计划</h3>\n            </a>\n        </div>\n    </div>\n</div>\n";
+	module.exports = {
+	    formatDate: function(curDate) {
+	        return curDate.getFullYear() + '-' + (curDate.getMonth() + 1) + '-' + curDate.getDate();
+	    },
+	}
+
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"board-view\">\n    <div class=\"plan-view\">\n        <div class=\"plan-list-view\">\n            <week v-for=\"week in weekList\" v-bind:week=\"week\">\n            </week>\n            <a class=\"add-week\" v-on:click=\"addWeek\">\n                <h3>增加新计划</h3>\n            </a>\n        </div>\n    </div>\n</div>\n";
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var action = __webpack_require__(8);
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(11),
+	    template: __webpack_require__(12),
 
 	    props: {
 	        week: Object
@@ -3420,7 +3432,7 @@
 	    },
 
 	    components: {
-	        task: __webpack_require__(12)
+	        task: __webpack_require__(13)
 	    },
 
 	    methods: {
@@ -3435,20 +3447,20 @@
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"week-view\" v-on:mouseenter=\"active = !active\" v-on:mouseleave=\"active = !active\">\n    <div class=\"week-title\">\n        <input class=\"date-input\" type=\"text\" v-model=\"week.date\">计划\n    </div>\n    <div class=\"week-delete\" v-on:click=\"deleteWeek\" v-show=\"active\">\n        <i class=\"icon-delete-week\"></i>\n    </div>\n    <div class=\"task-list\">\n        <task v-for=\"(index, task) in week.taskList\" v-bind:task.sync=\"task\" v-bind:task-index=\"index\"\n        :date=\"week.date\"></task>\n        <div class=\"add-task\" v-on:click=\"addTask\">\n            + 增加任务\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var action = __webpack_require__(8);
 	var debug = __webpack_require__(4)('task');
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(13),
+	    template: __webpack_require__(14),
 
 	    props: {
 	        task: Object,
@@ -3530,7 +3542,7 @@
 	    },
 
 	    components: {
-	        'v-select': __webpack_require__(14)
+	        'v-select': __webpack_require__(15)
 	    },
 	});
 
@@ -3567,17 +3579,17 @@
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"task-view\" v-bind:class=\"{ 't-close': isClose}\" v-on:mouseenter=\"active = !active\" v-on:mouseleave=\"active = !active\">\n    <div class=\"task-title\">\n        <div class=\"task-status\">\n        </div>\n        <input type=\"text\" class=\"title\" v-model=\"title\" placeholder=\"任务...\">\n        <div class=\"show-detail-icon switch-icon\" v-on:click=\"isClose=!isClose\">\n            <i v-show=\"!isClose\" class=\"icon-down\"></i>\n            <i v-show=\"isClose\" class=\"icon-left\"></i>\n        </div>\n        <div class=\"delete-task\" v-on:click=\"deleteTask\" v-show=\"active\">\n            <i class=\"icon-delete-task\"></i>\n        </div>\n    </div>\n    <div class=\"task-detail transition-all\">\n        <div class=\"inner\">\n            <div class=\"select-option-list\">\n                <div class=\"select-option-item\">\n                    <span class=\"font-12\">平台</span>\n                    <v-select :value.sync=\"project\" :options=\"projectOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <span class=\"font-12\">项目</span>\n                    <v-select :value.sync=\"subProject\" :options=\"subProjectOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <span class=\"font-12\">应用平台</span>\n                    <v-select :value.sync=\"projectType\" :options=\"projectTypeOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <span class=\"font-12\">状态</span>\n                    <v-select :value.sync=\"status\" :options=\"statusOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n            </div>\n            <textarea class=\"task-comment\" v-model=\"comment\" placeholder=\"备注...\"></textarea>\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(15),
+	    template: __webpack_require__(16),
 
 	    props: {
 	        options: {
@@ -3717,16 +3729,155 @@
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"btn-group\" v-bind:class=\"{open: show}\">\n    <button v-el:btn type=\"button\" class=\"btn btn-default dropdown-toggle btn-sm\" @click=\"toggleDropdown\"\n    @blur=\"show = (search ? show : false)\" v-bind=\"{disabled: disabled}\">\n        <span class=\"btn-placeholder\" v-show=\"showPlaceholder\">{{placeholder}}</span>\n        <span class=\"btn-content\">{{ selectedItems }}</span>\n        <span class=\"caret\"></span>\n    </button>\n    <ul class=\"dropdown-menu\">\n        <template v-if=\"options.length\">\n            <li v-if=\"search\" class=\"bs-searchbox\">\n                <input type=\"text\" placeholder=\"Search\" v-model=\"searchText\" class=\"form-control\"\n                autocomplete=\"off\">\n            </li>\n            <li v-for=\"option in options | filterBy searchText \" v-bind:id=\"option\" style=\"position:relative\">\n                <a @mousedown.prevent=\"select(option)\" style=\"cursor:pointer\">\n            {{ option }}\n            <span class=\"glyphicon glyphicon-ok check-mark\" v-show=\"isSelected(option)\"></span>\n          </a>\n            </li>\n        </template>\n        <slot v-else></slot>\n        <div class=\"notify\" v-show=\"showNotify\" transition=\"fadein\">Limit reached ({{limit}} items max).\n        </div>\n    </ul>\n</div>\n";
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(17);
+	module.exports = Vue.extend({
+	    template: __webpack_require__(18),
+
+	    components: {
+	        preview: __webpack_require__(19)
+	    }
+	});
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"old-view\">\n    <preview></preview>\n</div>\n";
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var action = __webpack_require__(8);
+	var debug = __webpack_require__(4)('preview');
+
+	module.exports = Vue.extend({
+	    template: __webpack_require__(20),
+
+	    vuex: {
+	        getters: {
+	            weekList: state => state.weekList,
+	            name: state => state.name
+	        },
+	        actions: {
+	            _updateState: action.updateState
+	        }
+	    },
+
+	    data: function() {
+	        return {
+	            code: JSON.stringify(transformToOld({
+	                name: this.name,
+	                weekList: this.weekList
+	            })) + ';;'
+	        }
+	    },
+
+	    computed: {
+	        state: function() {
+	            return {
+	                name: this.name,
+	                weekList: this.weekList
+	            }
+	        },
+	        html: function() {
+	            return parseReport(transformToOld(this.state));
+	        }
+	    },
+
+	    methods: {
+	        importData: function() {
+	            this._updateState(transformToNew(this.code));
+	        }
+	    }
+	});
+
+	var transformToNew = function(data) {
+	    var json = JSON.parse(data.replace(';;', '')) || {};
+	    var name = json.name;
+	    var date = json.date;
+	    var taskList = json.plan;
+	    return {
+	        name: name,
+	        weekList: [{
+	            date: date,
+	            taskList: taskList
+	        }]
+	    }
+	}
+
+	var transformToOld = function(data) {
+	    var json = JSON.parse(JSON.stringify(data)) || {};
+	    var name = json.name;
+	    var _len = json.weekList.length;
+	    var plan = json.weekList[_len - 1];
+	    var last = json.weekList[_len - 2];
+	    var date = plan.date;
+	    return {
+	        name: name,
+	        date: date,
+	        last: last && last.taskList || [],
+	        plan: plan && plan.taskList || []
+	    }
+	}
+
+	/**
+	 * 报表对象解析成报表
+	 * @param reportOjb 报表对象
+	 * return 报表html
+	 */
+	var parseReport = function(reportObj) {
+	    var hl = "",
+	        i, j, obj, head,
+	        comTdCss = 'border: solid 1px #DDD;background-color: #F7F7F7;padding: 4px 12px;font-family: monospace;font-size: 12px;',
+	        tableSty = ' style="margin: 15px;width: 765px;border-collapse:collapse;border-spacing: 0; text-align: left;" ',
+	        h2Sty = ' style="color:#888;text-align: left;font-size: 16px;padding: 5px 15px 0 15px;margin:0;" ',
+	        firstTrTdSty = ' style="text-align: center;background-color: #999;color: #FFF;border: solid 1px #DDD;font-weight: normal;font-family: \'Microsoft YaHei\', \'WenQuanYi Micro Hei\', \'tohoma,sans-serif\';" ',
+	        tdComSty = ' style="min-width: 40px;text-align:center;color: #888;' + comTdCss + '" ',
+	        tdComLeftSty = ' style="min-width: 40px;text-align:left;color: #888;' + comTdCss + '" ',
+	        tdComCenSty = ' style="min-width: 60px;text-align: center;color: #888;' + comTdCss + '" ',
+	        tdFirstSty = ' style="min-width: 40px;text-align:center;color:#258AAF;' + comTdCss + '" ';
+	    head = '<table ' + tableSty + '>' + '<tr>' + '<td ' + firstTrTdSty + '>平台</td>' + '<td ' + firstTrTdSty + '>项目</td>' + '<td ' + firstTrTdSty + '>类型</td>' + '<td ' + firstTrTdSty + '>任务</td>' + '<td ' + firstTrTdSty + '>状态</td>' + '<td ' + firstTrTdSty + '>备注</td>' + '</tr>';
+	    if (reportObj.last.length) {
+	        hl = '<h2 ' + h2Sty + '>上周工作：</h2>' + head;
+	        for (i = 0, j = reportObj.last.length; i < j; i++) {
+	            obj = reportObj.last[i]
+	            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
+	        }
+	        hl += '</table>';
+	    };
+	    if (reportObj.plan.length) {
+	        hl += '<h2 ' + h2Sty + '>本周计划：</h2>' + head;
+	        for (i = 0, j = reportObj.plan.length; i < j; i++) {
+	            obj = reportObj.plan[i]
+	            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
+	        }
+	        hl += '</table>';
+	    };
+	    return hl;
+	}
+
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"preview-view\">\n    <h3>代码</h3>\n    <div class=\"code\">\n        <textarea v-model=\"code\"></textarea>\n        <input type=\"button\" value=\"导入\" v-on:click=\"importData\">\n    </div>\n    <h3>预览</h3>\n    <div class=\"html\">\n        {{{html}}}\n    </div>\n</div>\n";
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var util = __webpack_require__(9);
 	var debug = __webpack_require__(4)('store');
 
 
@@ -3772,6 +3923,10 @@
 	        }
 	        saveLocal();
 	    },
+	    updateName: function(state, name) {
+	        state.name = name;
+	        saveLocal();
+	    },
 	    updateState: function(state, newState) {
 	        debug(JSON.stringify(newState));
 	        state.name = newState.name;
@@ -3814,27 +3969,52 @@
 
 
 /***/ },
-/* 17 */
-/***/ function(module, exports) {
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	    formatDate: function(curDate) {
-	        return curDate.getFullYear() + '-' + (curDate.getMonth() + 1) + '-' + curDate.getDate();
+	var action = __webpack_require__(8);
+	var debug = __webpack_require__(4)('user');
+
+	module.exports = Vue.extend({
+	    template: __webpack_require__(30),
+
+	    vuex: {
+	        getters: {
+	            _name: state => {
+	                debug('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', state.name);
+	                return state.name;
+	            }
+	        },
+	        actions: {
+	            _updateName: action.updateName
+	        },
 	    },
-	}
+
+	    computed: {
+	        name: () => this._name,
+	        //name: {
+	        //    get: () => {
+	        //        debug('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', this._name);
+	        //        return this._name
+	        //    },
+	        //    set: newValue => this._updateName(newValue)
+	        //}
+	    }
+
+	});
 
 
 /***/ },
-/* 18 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(19);
+	var content = __webpack_require__(24);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(23)(content, {});
+	var update = __webpack_require__(29)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -3851,21 +4031,21 @@
 	}
 
 /***/ },
-/* 19 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(25)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".font-12 {\n  font-size: 1.2rem; }\n\n.font-14 {\n  font-size: 1.4rem; }\n\n.transition-all {\n  transition: all 0.3s ease-out; }\n\n.nav {\n  background: #54D09F;\n  width: 100%;\n  height: 6rem; }\n\n.main {\n  position: fixed;\n  top: 6rem;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n[contenteditable=true]:focus {\n  outline: none; }\n\n[contenteditable=true]:empty:before {\n  content: attr(placeholder);\n  display: block;\n  /* For Firefox */\n  color: #979797; }\n\ninput, button, select, textarea {\n  outline: none; }\n\ntextarea {\n  resize: none; }\n\n.board-view {\n  height: 100%;\n  padding: 0 1rem; }\n  .board-view .add-week {\n    cursor: pointer;\n    display: inline-block; }\n\n.plan-view {\n  width: 100%;\n  padding: 3rem 0;\n  height: 100%;\n  overflow: auto;\n  float: left; }\n  .plan-view .plan-list-view {\n    height: 100%; }\n\n.week-view {\n  background: #eee;\n  width: 40rem;\n  border-radius: 0.5rem;\n  height: 100%;\n  padding: 2rem;\n  padding-right: 1rem;\n  margin-right: 1rem;\n  display: inline-block;\n  position: relative; }\n  .week-view .week-title {\n    font-size: 1.8rem;\n    padding-bottom: 0.5rem; }\n  .week-view .task-list {\n    height: 95%;\n    overflow: auto;\n    padding-right: 1rem; }\n  .week-view .add-task {\n    color: #4A90E2;\n    cursor: pointer; }\n  .week-view .date-input {\n    border: none;\n    background: #eee;\n    width: 10rem; }\n  .week-view .week-delete {\n    position: absolute;\n    width: 2rem;\n    height: 2rem;\n    top: -1rem;\n    right: -1rem; }\n\n.border-gery, .task-view .task-detail .task-comment, .task-view .task-detail .select-option-list {\n  border-radius: 0.5rem;\n  border: solid 1px #979797; }\n\n.task-view {\n  background: #fff;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n  position: relative; }\n  .task-view .task-title {\n    height: 4rem;\n    border-radius: 0.5rem;\n    padding-top: 0.5rem;\n    box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.2); }\n    .task-view .task-title .task-status {\n      display: inline-block;\n      height: 2rem;\n      width: 2rem; }\n    .task-view .task-title .title {\n      display: inline-block;\n      width: 76%;\n      border: none; }\n  .task-view.t-close .task-detail {\n    height: 0;\n    margin-top: 0rem; }\n  .task-view.t-close .task-comment, .task-view.t-close .select-option-list {\n    display: none; }\n  .task-view .task-detail {\n    background: #fff;\n    border-radius: 0.5rem;\n    height: 20rem;\n    margin-top: 1rem; }\n    .task-view .task-detail .inner {\n      padding: 0.5rem; }\n    .task-view .task-detail .task-comment {\n      width: 100%;\n      padding: 0.3rem;\n      height: 11rem;\n      overflow: auto; }\n    .task-view .task-detail .select-option-list {\n      height: 6rem;\n      margin-bottom: 1rem; }\n    .task-view .task-detail .select-option-item {\n      float: left;\n      width: 25%;\n      height: 100%;\n      border-right: solid #979797 1px;\n      padding-left: .5rem; }\n      .task-view .task-detail .select-option-item:last-child {\n        border-right: none; }\n  .task-view .show-detail-icon {\n    float: right;\n    margin-top: 0.5rem;\n    margin-right: 1.5rem;\n    height: 2rem;\n    width: 2rem; }\n  .task-view .delete-task {\n    position: absolute;\n    width: 1rem;\n    height: 1rem;\n    top: -0.5rem;\n    right: 0; }\n\n.old-view {\n  margin: 1rem; }\n\n.preview-view .code textarea {\n  width: 60%;\n  min-height: 20rem; }\n\n[class^=\"icon-\"] {\n  display: inline-block;\n  height: 100%;\n  width: 100%;\n  cursor: pointer; }\n\n.icon-down {\n  background: url(" + __webpack_require__(21) + ");\n  background-size: 2rem 2rem; }\n\n.icon-left {\n  background: url(" + __webpack_require__(22) + ");\n  background-size: 2rem 2rem; }\n\n.icon-delete-svg, .icon-delete-week, .icon-delete-task {\n  background: url(" + __webpack_require__(26) + "); }\n\n.icon-delete-week {\n  background-size: 2rem 2rem; }\n\n.icon-delete-task {\n  background-size: 1rem 1rem; }\n", ""]);
+	exports.push([module.id, ".font-12 {\n  font-size: 1.2rem; }\n\n.font-14 {\n  font-size: 1.4rem; }\n\n.transition-all {\n  transition: all 0.3s ease-out; }\n\n.nav {\n  background: #54D09F;\n  width: 100%;\n  height: 6rem;\n  padding: 0 1rem; }\n  .nav .router {\n    float: left; }\n    .nav .router a {\n      margin-right: 1rem; }\n    .nav .router h4 {\n      display: inline-block; }\n  .nav .user {\n    margin-top: 1.5rem;\n    float: right; }\n  .nav input {\n    border: none;\n    background-color: #54D09F; }\n\n.main {\n  position: fixed;\n  top: 6rem;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n[contenteditable=true]:focus {\n  outline: none; }\n\n[contenteditable=true]:empty:before {\n  content: attr(placeholder);\n  display: block;\n  /* For Firefox */\n  color: #979797; }\n\ninput, button, select, textarea {\n  outline: none; }\n\ntextarea {\n  resize: none; }\n\n.board-view {\n  height: 100%;\n  padding: 0 1rem; }\n  .board-view .add-week {\n    cursor: pointer;\n    display: inline-block; }\n\n.plan-view {\n  width: 100%;\n  padding: 3rem 0;\n  height: 100%;\n  overflow: auto;\n  float: left; }\n  .plan-view .plan-list-view {\n    height: 100%; }\n\n.week-view {\n  background: #eee;\n  width: 40rem;\n  border-radius: 0.5rem;\n  height: 100%;\n  padding: 2rem;\n  padding-right: 1rem;\n  margin-right: 1rem;\n  display: inline-block;\n  position: relative; }\n  .week-view .week-title {\n    font-size: 1.8rem;\n    padding-bottom: 0.5rem; }\n  .week-view .task-list {\n    height: 95%;\n    overflow: auto;\n    padding-right: 1rem; }\n  .week-view .add-task {\n    color: #4A90E2;\n    cursor: pointer; }\n  .week-view .date-input {\n    border: none;\n    background: #eee;\n    width: 10rem; }\n  .week-view .week-delete {\n    position: absolute;\n    width: 2rem;\n    height: 2rem;\n    top: -1rem;\n    right: -1rem; }\n\n.border-gery, .task-view .task-detail .task-comment, .task-view .task-detail .select-option-list {\n  border-radius: 0.5rem;\n  border: solid 1px #979797; }\n\n.task-view {\n  background: #fff;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n  position: relative; }\n  .task-view .task-title {\n    height: 4rem;\n    border-radius: 0.5rem;\n    padding-top: 0.5rem;\n    box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.2); }\n    .task-view .task-title .task-status {\n      display: inline-block;\n      height: 2rem;\n      width: 2rem; }\n    .task-view .task-title .title {\n      display: inline-block;\n      width: 76%;\n      border: none; }\n  .task-view.t-close .task-detail {\n    height: 0;\n    margin-top: 0rem; }\n  .task-view.t-close .task-comment, .task-view.t-close .select-option-list {\n    display: none; }\n  .task-view .task-detail {\n    background: #fff;\n    border-radius: 0.5rem;\n    height: 20rem;\n    margin-top: 1rem; }\n    .task-view .task-detail .inner {\n      padding: 0.5rem; }\n    .task-view .task-detail .task-comment {\n      width: 100%;\n      padding: 0.3rem;\n      height: 11rem;\n      overflow: auto; }\n    .task-view .task-detail .select-option-list {\n      height: 6rem;\n      margin-bottom: 1rem; }\n    .task-view .task-detail .select-option-item {\n      float: left;\n      width: 25%;\n      height: 100%;\n      border-right: solid #979797 1px;\n      padding-left: .5rem; }\n      .task-view .task-detail .select-option-item:last-child {\n        border-right: none; }\n  .task-view .show-detail-icon {\n    float: right;\n    margin-top: 0.5rem;\n    margin-right: 1.5rem;\n    height: 2rem;\n    width: 2rem; }\n  .task-view .delete-task {\n    position: absolute;\n    width: 1rem;\n    height: 1rem;\n    top: -0.5rem;\n    right: 0; }\n\n.old-view {\n  margin: 1rem; }\n\n.preview-view .code textarea {\n  width: 60%;\n  min-height: 20rem; }\n\n[class^=\"icon-\"] {\n  display: inline-block;\n  height: 100%;\n  width: 100%;\n  cursor: pointer; }\n\n.icon-down {\n  background: url(" + __webpack_require__(26) + ");\n  background-size: 2rem 2rem; }\n\n.icon-left {\n  background: url(" + __webpack_require__(27) + ");\n  background-size: 2rem 2rem; }\n\n.icon-delete-svg, .icon-delete-week, .icon-delete-task {\n  background: url(" + __webpack_require__(28) + "); }\n\n.icon-delete-week {\n  background-size: 2rem 2rem; }\n\n.icon-delete-task {\n  background-size: 1rem 1rem; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 20 */
+/* 25 */
 /***/ function(module, exports) {
 
 	/*
@@ -3921,19 +4101,25 @@
 
 
 /***/ },
-/* 21 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M16 8c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8 8-3.582 8-8zM1.5 8c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M4.957 5.543l-1.414 1.414 4.457 4.457 4.457-4.457-1.414-1.414-3.043 3.043z'%3E%3C/path%3E %3C/svg%3E\""
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zM8 1.5c3.59 0 6.5 2.91 6.5 6.5s-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5 2.91-6.5 6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.457 4.957l-1.414-1.414-4.457 4.457 4.457 4.457 1.414-1.414-3.043-3.043z'%3E%3C/path%3E %3C/svg%3E\""
 
 /***/ },
-/* 23 */
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14.5c-3.59 0-6.5-2.91-6.5-6.5s2.91-6.5 6.5-6.5 6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.5 4l-2.5 2.5-2.5-2.5-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 2.5-2.5 2.5 2.5 1.5-1.5-2.5-2.5 2.5-2.5z'%3E%3C/path%3E %3C/svg%3E\""
+
+/***/ },
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -4185,150 +4371,10 @@
 
 
 /***/ },
-/* 24 */,
-/* 25 */
+/* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"preview-view\">\n    <h3>代码</h3>\n    <div class=\"code\">\n        <textarea v-model=\"code\"></textarea>\n        <input type=\"button\" value=\"导入\" v-on:click=\"importData\">\n    </div>\n    <h3>预览</h3>\n    <div class=\"html\">\n        {{{html}}}\n    </div>\n</div>\n";
-
-/***/ },
-/* 26 */
-/***/ function(module, exports) {
-
-	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14.5c-3.59 0-6.5-2.91-6.5-6.5s2.91-6.5 6.5-6.5 6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.5 4l-2.5 2.5-2.5-2.5-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 2.5-2.5 2.5 2.5 1.5-1.5-2.5-2.5 2.5-2.5z'%3E%3C/path%3E %3C/svg%3E\""
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = Vue.extend({
-	    template: __webpack_require__(28),
-
-	    components: {
-	        preview: __webpack_require__(29)
-	    }
-	});
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"old-view\">\n    <preview></preview>\n</div>\n";
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var action = __webpack_require__(8);
-	var debug = __webpack_require__(4)('preview');
-
-	module.exports = Vue.extend({
-	    template: __webpack_require__(25),
-
-	    vuex: {
-	        getters: {
-	            weekList: state => state.weekList,
-	            name: state => state.name
-	        },
-	        actions: {
-	            _updateState: action.updateState
-	        }
-	    },
-
-	    data: function() {
-	        return {
-	            code: JSON.stringify(transformToOld({
-	                name: this.state,
-	                weekList: this.weekList
-	            })) + ';;'
-	        }
-	    },
-
-	    computed: {
-	        state: function() {
-	            return {
-	                name: this.name,
-	                weekList: this.weekList
-	            }
-	        },
-	        html: function() {
-	            return parseReport(transformToOld(this.state));
-	        }
-	    },
-
-	    methods: {
-	        importData: function() {
-	            this._updateState(transformToNew(this.code));
-	        }
-	    }
-	});
-
-	var transformToNew = function(data) {
-	    var json = JSON.parse(data.replace(';;', '')) || {};
-	    var name = json.name;
-	    var date = json.date;
-	    var taskList = json.plan;
-	    return {
-	        name: name,
-	        weekList: [{
-	            date: date,
-	            taskList: taskList
-	        }]
-	    }
-	}
-
-	var transformToOld = function(data) {
-	    var json = JSON.parse(JSON.stringify(data)) || {};
-	    var name = json.name;
-	    var _len = json.weekList.length;
-	    var plan = json.weekList[_len - 1];
-	    var last = json.weekList[_len - 2];
-	    var date = plan.date;
-	    return {
-	        name: name,
-	        date: date,
-	        last: last && last.taskList || [],
-	        plan: plan && plan.taskList || []
-	    }
-	}
-
-	/**
-	 * 报表对象解析成报表
-	 * @param reportOjb 报表对象
-	 * return 报表html
-	 */
-	var parseReport = function(reportObj) {
-	    var hl = "",
-	        i, j, obj, head,
-	        comTdCss = 'border: solid 1px #DDD;background-color: #F7F7F7;padding: 4px 12px;font-family: monospace;font-size: 12px;',
-	        tableSty = ' style="margin: 15px;width: 765px;border-collapse:collapse;border-spacing: 0; text-align: left;" ',
-	        h2Sty = ' style="color:#888;text-align: left;font-size: 16px;padding: 5px 15px 0 15px;margin:0;" ',
-	        firstTrTdSty = ' style="text-align: center;background-color: #999;color: #FFF;border: solid 1px #DDD;font-weight: normal;font-family: \'Microsoft YaHei\', \'WenQuanYi Micro Hei\', \'tohoma,sans-serif\';" ',
-	        tdComSty = ' style="min-width: 40px;text-align:center;color: #888;' + comTdCss + '" ',
-	        tdComLeftSty = ' style="min-width: 40px;text-align:left;color: #888;' + comTdCss + '" ',
-	        tdComCenSty = ' style="min-width: 60px;text-align: center;color: #888;' + comTdCss + '" ',
-	        tdFirstSty = ' style="min-width: 40px;text-align:center;color:#258AAF;' + comTdCss + '" ';
-	    head = '<table ' + tableSty + '>' + '<tr>' + '<td ' + firstTrTdSty + '>平台</td>' + '<td ' + firstTrTdSty + '>项目</td>' + '<td ' + firstTrTdSty + '>类型</td>' + '<td ' + firstTrTdSty + '>任务</td>' + '<td ' + firstTrTdSty + '>状态</td>' + '<td ' + firstTrTdSty + '>备注</td>' + '</tr>';
-	    if (reportObj.last.length) {
-	        hl = '<h2 ' + h2Sty + '>上周工作：</h2>' + head;
-	        for (i = 0, j = reportObj.last.length; i < j; i++) {
-	            obj = reportObj.last[i]
-	            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
-	        }
-	        hl += '</table>';
-	    };
-	    if (reportObj.plan.length) {
-	        hl += '<h2 ' + h2Sty + '>本周计划：</h2>' + head;
-	        for (i = 0, j = reportObj.plan.length; i < j; i++) {
-	            obj = reportObj.plan[i]
-	            hl += '<tr>' + '<td ' + tdFirstSty + '>' + obj.project + '</td>' + '<td ' + tdComCenSty + '>' + obj.subProject + '</td>' + '<td ' + tdComSty + '>' + obj.projectType + '</td>' + '<td ' + tdComLeftSty + '>' + obj.task + '</td>' + '<td ' + tdComSty + '>' + obj.status + '</td>' + '<td ' + tdComLeftSty + '>' + obj.comment + '</td>' + '</tr>';
-	        }
-	        hl += '</table>';
-	    };
-	    return hl;
-	}
-
+	module.exports = "<div class=\"user\">\n    <input v-model=\"name\" type=\"text\" placeholder=\"请填写名字..\">\n    {{_name}}\n</div>\n";
 
 /***/ }
 /******/ ]);
