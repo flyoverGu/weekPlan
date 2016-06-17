@@ -25,13 +25,7 @@ module.exports = Vue.extend({
         }
     },
 
-    watch: {
-        week: function() {
-            console.log(this.week.toJSON());
-        }
-    },
-
-    components: {
+   components: {
         task: require('./task')
     },
 

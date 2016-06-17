@@ -3372,7 +3372,7 @@
 	            var today = util.formatDate(new Date);
 	            for (var i = 0; i < this.weekList.length; i++) {
 	                if (this.weekList[i].date == today) {
-	                    alert(today + '的计划已经存在');
+	                    alert(today + '的计划已经存在, 可以通过修改日期来添加.');
 	                    return;
 	                }
 	            }
@@ -3455,13 +3455,7 @@
 	        }
 	    },
 
-	    watch: {
-	        week: function() {
-	            console.log(this.week.toJSON());
-	        }
-	    },
-
-	    components: {
+	   components: {
 	        task: __webpack_require__(14)
 	    },
 
