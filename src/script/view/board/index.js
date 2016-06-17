@@ -1,5 +1,6 @@
 var action = require('../../action');
 var util = require('../../util');
+var debug = require('debug')('board');
 
 module.exports = Vue.extend({
     template: require('../../template/board.html'),
@@ -15,11 +16,30 @@ module.exports = Vue.extend({
         }
     },
 
+    computed: {
+        count: function() {
+            return this.weekList.length;
+        }
+    },
+
     components: {
         week: require('../week/week'),
     },
 
+    watch: {
+        count: function(newValue, oldValue) {
+            debug('weekList count change', oldValue, newValue);
+            if (oldValue < newValue) {
+                this.scrollOver();
+            }
+        }
+    },
+
     methods: {
+        scrollOver: function() {
+            // 默认滚到底
+            this.$el.firstElementChild.scrollLeft = 10000;
+        },
         addWeek: function() {
             var today = util.formatDate(new Date);
             for (var i = 0; i < this.weekList.length; i++) {
@@ -29,6 +49,10 @@ module.exports = Vue.extend({
                 }
             }
             this._addWeek();
-        }
-    }
+        },
+    },
+
+    ready: function() {
+        this.scrollOver();
+    },
 });

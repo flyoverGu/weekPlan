@@ -13,7 +13,6 @@
     "css-loader": "^0.23.1",
     "debug": "^2.2.0",
     "html-loader": "^0.4.3",
-    "jquery": "^2.2.3",
     "node-sass": "^3.7.0",
     "sass": "^0.5.0",
     "sass-loader": "^3.2.0",
@@ -22,7 +21,6 @@
     "vue-router": "^0.7.13",
     "vue-strap": "^1.0.11",
     "vuex": "^0.6.3",
-    "webpack": "^1.13.0",
-    "zepto": "^1.0.1"
+    "webpack": "^1.13.0"
   }
 }

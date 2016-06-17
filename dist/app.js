@@ -44,8 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
 	__webpack_require__(25);
+	__webpack_require__(1);
 
 
 /***/ },
@@ -3328,6 +3328,7 @@
 
 	var action = __webpack_require__(9);
 	var util = __webpack_require__(10);
+	var debug = __webpack_require__(3)('board');
 
 	module.exports = Vue.extend({
 	    template: __webpack_require__(11),
@@ -3343,11 +3344,30 @@
 	        }
 	    },
 
+	    computed: {
+	        count: function() {
+	            return this.weekList.length;
+	        }
+	    },
+
 	    components: {
 	        week: __webpack_require__(12),
 	    },
 
+	    watch: {
+	        count: function(newValue, oldValue) {
+	            debug('weekList count change', oldValue, newValue);
+	            if (oldValue < newValue) {
+	                this.scrollOver();
+	            }
+	        }
+	    },
+
 	    methods: {
+	        scrollOver: function() {
+	            // 默认滚到底
+	            this.$el.firstElementChild.scrollLeft = 10000;
+	        },
 	        addWeek: function() {
 	            var today = util.formatDate(new Date);
 	            for (var i = 0; i < this.weekList.length; i++) {
@@ -3357,8 +3377,12 @@
 	                }
 	            }
 	            this._addWeek();
-	        }
-	    }
+	        },
+	    },
+
+	    ready: function() {
+	        this.scrollOver();
+	    },
 	});
 
 
