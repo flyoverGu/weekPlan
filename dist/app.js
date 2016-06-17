@@ -44,23 +44,389 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(25);
 	__webpack_require__(1);
+	__webpack_require__(8);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	__webpack_require__(6);
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./index.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./index.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var debug = __webpack_require__(3)('directive');
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".font-12 {\n  font-size: 1.2rem; }\n\n.font-14 {\n  font-size: 1.4rem; }\n\n.transition-all {\n  transition: all 0.3s ease-out; }\n\n.nav {\n  background: #54D09F;\n  width: 100%;\n  height: 6rem;\n  padding: 0 1rem; }\n  .nav .router {\n    float: left; }\n    .nav .router a {\n      margin-right: 1rem; }\n    .nav .router h4 {\n      display: inline-block; }\n  .nav .user {\n    margin-top: 1.5rem;\n    float: right; }\n  .nav input {\n    border: none;\n    background-color: #54D09F; }\n\n.main {\n  position: fixed;\n  top: 6rem;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n[contenteditable=true]:focus {\n  outline: none; }\n\n[contenteditable=true]:empty:before {\n  content: attr(placeholder);\n  display: block;\n  /* For Firefox */\n  color: #979797; }\n\ninput, button, select, textarea {\n  outline: none; }\n\ntextarea {\n  resize: none; }\n\n.board-view {\n  height: 100%;\n  padding: 0 1rem;\n  white-space: nowrap; }\n  .board-view .add-week {\n    cursor: pointer;\n    display: inline-block; }\n\n.plan-view {\n  width: 100%;\n  padding: 3rem 0;\n  height: 100%;\n  overflow: auto;\n  float: left; }\n  .plan-view .plan-list-view {\n    height: 100%; }\n\n.week-view {\n  background: #eee;\n  width: 40rem;\n  border-radius: 0.5rem;\n  height: 100%;\n  padding: 2rem;\n  padding-right: 1rem;\n  margin-right: 1rem;\n  display: inline-block;\n  position: relative; }\n  .week-view .week-title {\n    font-size: 1.8rem;\n    padding-bottom: 0.5rem; }\n  .week-view .task-list {\n    height: 95%;\n    overflow: auto;\n    padding-right: 1rem; }\n  .week-view .add-task {\n    color: #4A90E2;\n    cursor: pointer; }\n  .week-view .date-input {\n    border: none;\n    background: #eee;\n    width: 10rem; }\n  .week-view .week-delete {\n    position: absolute;\n    width: 2rem;\n    height: 2rem;\n    top: -1rem;\n    right: -1rem; }\n\n.border-gery, .task-view .task-detail .task-comment, .task-view .task-detail .select-option-list {\n  border-radius: 0.5rem;\n  border: solid 1px #979797; }\n\n.task-view {\n  background: #fff;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n  position: relative; }\n  .task-view .task-title {\n    height: 4rem;\n    border-radius: 0.5rem;\n    padding-top: 0.5rem;\n    box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.2); }\n    .task-view .task-title .task-status {\n      display: inline-block;\n      height: 2rem;\n      width: 2rem; }\n    .task-view .task-title .title {\n      display: inline-block;\n      width: 76%;\n      border: none; }\n  .task-view.t-close .task-detail {\n    height: 0;\n    margin-top: 0rem; }\n  .task-view.t-close .task-comment, .task-view.t-close .select-option-list {\n    display: none; }\n  .task-view .task-detail {\n    background: #fff;\n    border-radius: 0.5rem;\n    height: 20rem;\n    margin-top: 1rem; }\n    .task-view .task-detail .inner {\n      padding: 0.5rem; }\n    .task-view .task-detail .task-comment {\n      width: 100%;\n      padding: 0.3rem;\n      height: 11rem;\n      overflow: auto; }\n    .task-view .task-detail .select-option-list {\n      height: 6rem;\n      margin-bottom: 1rem; }\n    .task-view .task-detail .select-option-item {\n      float: left;\n      width: 25%;\n      height: 100%;\n      border-right: solid #979797 1px;\n      padding-left: .5rem; }\n      .task-view .task-detail .select-option-item:last-child {\n        border-right: none; }\n  .task-view .show-detail-icon {\n    float: right;\n    margin-top: 0.5rem;\n    margin-right: 1.5rem;\n    height: 2rem;\n    width: 2rem; }\n  .task-view .delete-task {\n    position: absolute;\n    width: 1rem;\n    height: 1rem;\n    top: -0.5rem;\n    right: 0; }\n\n.old-view {\n  margin: 1rem; }\n\n.preview-view .code textarea {\n  width: 60%;\n  min-height: 20rem; }\n\n[class^=\"icon-\"] {\n  display: inline-block;\n  height: 100%;\n  width: 100%;\n  cursor: pointer; }\n\n.icon-down {\n  background: url(" + __webpack_require__(4) + ");\n  background-size: 2rem 2rem; }\n\n.icon-left {\n  background: url(" + __webpack_require__(5) + ");\n  background-size: 2rem 2rem; }\n\n.icon-delete-svg, .icon-delete-week, .icon-delete-task {\n  background: url(" + __webpack_require__(6) + "); }\n\n.icon-delete-week {\n  background-size: 2rem 2rem; }\n\n.icon-delete-task {\n  background-size: 1rem 1rem; }\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M16 8c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8 8-3.582 8-8zM1.5 8c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M4.957 5.543l-1.414 1.414 4.457 4.457 4.457-4.457-1.414-1.414-3.043 3.043z'%3E%3C/path%3E %3C/svg%3E\""
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zM8 1.5c3.59 0 6.5 2.91 6.5 6.5s-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5 2.91-6.5 6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.457 4.957l-1.414-1.414-4.457 4.457 4.457 4.457 1.414-1.414-3.043-3.043z'%3E%3C/path%3E %3C/svg%3E\""
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14.5c-3.59 0-6.5-2.91-6.5-6.5s2.91-6.5 6.5-6.5 6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.5 4l-2.5 2.5-2.5-2.5-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 2.5-2.5 2.5 2.5 1.5-1.5-2.5-2.5 2.5-2.5z'%3E%3C/path%3E %3C/svg%3E\""
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(9);
+	__webpack_require__(13);
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var debug = __webpack_require__(10)('directive');
 
 	Vue.directive('diy', function(value) {
 	    debug('do diy directive', value);
@@ -69,7 +435,7 @@
 
 
 /***/ },
-/* 3 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -79,7 +445,7 @@
 	 * Expose `debug()` as the module.
 	 */
 
-	exports = module.exports = __webpack_require__(4);
+	exports = module.exports = __webpack_require__(11);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -243,7 +609,7 @@
 
 
 /***/ },
-/* 4 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -259,7 +625,7 @@
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(5);
+	exports.humanize = __webpack_require__(12);
 
 	/**
 	 * The currently active debug mode names, and names to skip.
@@ -446,7 +812,7 @@
 
 
 /***/ },
-/* 5 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/**
@@ -577,20 +943,20 @@
 
 
 /***/ },
-/* 6 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var VueRouter = __webpack_require__(7)
+	var VueRouter = __webpack_require__(14)
 
-	var Board = __webpack_require__(8);
-	var Old = __webpack_require__(18);
+	var Board = __webpack_require__(15);
+	var Old = __webpack_require__(25);
 
 	Vue.use(VueRouter);
 
 	var App = Vue.extend({
-	    store: __webpack_require__(22),
+	    store: __webpack_require__(29),
 	    components: {
-	        user: __webpack_require__(23)
+	        user: __webpack_require__(30)
 	    }
 	})
 
@@ -609,7 +975,7 @@
 
 
 /***/ },
-/* 7 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -3323,15 +3689,15 @@
 	}));
 
 /***/ },
-/* 8 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var action = __webpack_require__(9);
-	var util = __webpack_require__(10);
-	var debug = __webpack_require__(3)('board');
+	var action = __webpack_require__(16);
+	var util = __webpack_require__(17);
+	var debug = __webpack_require__(10)('board');
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(11),
+	    template: __webpack_require__(18),
 
 	    vuex: {
 	        actions: {
@@ -3351,7 +3717,7 @@
 	    },
 
 	    components: {
-	        week: __webpack_require__(12),
+	        week: __webpack_require__(19),
 	    },
 
 	    watch: {
@@ -3387,7 +3753,7 @@
 
 
 /***/ },
-/* 9 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -3408,7 +3774,7 @@
 
 
 /***/ },
-/* 10 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -3419,19 +3785,19 @@
 
 
 /***/ },
-/* 11 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"board-view\">\n    <div class=\"plan-view\">\n        <div class=\"plan-list-view\">\n            <week v-for=\"week in weekList\" v-bind:week=\"week\">\n            </week>\n            <a class=\"add-week\" v-on:click=\"addWeek\">\n                <h3>增加新计划</h3>\n            </a>\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 12 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var action = __webpack_require__(9);
+	var action = __webpack_require__(16);
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(13),
+	    template: __webpack_require__(20),
 
 	    props: {
 	        week: Object
@@ -3456,7 +3822,7 @@
 	    },
 
 	   components: {
-	        task: __webpack_require__(14)
+	        task: __webpack_require__(21)
 	    },
 
 	    methods: {
@@ -3471,20 +3837,20 @@
 
 
 /***/ },
-/* 13 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"week-view\" v-on:mouseenter=\"active = !active\" v-on:mouseleave=\"active = !active\">\n    <div class=\"week-title\">\n        <input class=\"date-input\" type=\"text\" v-model=\"week.date\">计划\n    </div>\n    <div class=\"week-delete\" v-on:click=\"deleteWeek\" v-show=\"active\">\n        <i class=\"icon-delete-week\"></i>\n    </div>\n    <div class=\"task-list\">\n        <task v-for=\"(index, task) in week.taskList\" v-bind:task.sync=\"task\" v-bind:task-index=\"index\"\n        :date=\"week.date\"></task>\n        <div class=\"add-task\" v-on:click=\"addTask\">\n            + 增加任务\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 14 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var action = __webpack_require__(9);
-	var debug = __webpack_require__(3)('task');
+	var action = __webpack_require__(16);
+	var debug = __webpack_require__(10)('task');
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(15),
+	    template: __webpack_require__(22),
 
 	    props: {
 	        task: Object,
@@ -3566,7 +3932,7 @@
 	    },
 
 	    components: {
-	        'v-select': __webpack_require__(16)
+	        'v-select': __webpack_require__(23)
 	    },
 	});
 
@@ -3603,17 +3969,17 @@
 
 
 /***/ },
-/* 15 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"task-view\" v-bind:class=\"{ 't-close': isClose}\" v-on:mouseenter=\"active = !active\" v-on:mouseleave=\"active = !active\">\n    <div class=\"task-title\">\n        <div class=\"task-status\">\n        </div>\n        <input type=\"text\" class=\"title\" v-model=\"title\" placeholder=\"任务...\">\n        <div class=\"show-detail-icon switch-icon\" v-on:click=\"isClose=!isClose\">\n            <i v-show=\"!isClose\" class=\"icon-down\"></i>\n            <i v-show=\"isClose\" class=\"icon-left\"></i>\n        </div>\n        <div class=\"delete-task\" v-on:click=\"deleteTask\" v-show=\"active\">\n            <i class=\"icon-delete-task\"></i>\n        </div>\n    </div>\n    <div class=\"task-detail transition-all\">\n        <div class=\"inner\">\n            <div class=\"select-option-list\">\n                <div class=\"select-option-item\">\n                    <div class=\"font-12\">平台</div>\n                    <v-select :value.sync=\"project\" :options=\"projectOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <div class=\"font-12\">项目</div>\n                    <v-select :value.sync=\"subProject\" :options=\"subProjectOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <div class=\"font-12\">应用平台</div>\n                    <v-select :value.sync=\"projectType\" :options=\"projectTypeOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n                <div class=\"select-option-item\">\n                    <div class=\"font-12\">状态</div>\n                    <v-select :value.sync=\"status\" :options=\"statusOptions\" :close-on-select=\"true\"></v-select>\n                </div>\n            </div>\n            <textarea class=\"task-comment\" v-model=\"comment\" placeholder=\"备注...\"></textarea>\n        </div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 16 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(17),
+	    template: __webpack_require__(24),
 
 	    props: {
 	        options: {
@@ -3753,39 +4119,39 @@
 
 
 /***/ },
-/* 17 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"btn-group\" v-bind:class=\"{open: show}\">\n    <button v-el:btn type=\"button\" class=\"btn btn-default dropdown-toggle btn-sm\" @click=\"toggleDropdown\"\n    @blur=\"show = (search ? show : false)\" v-bind=\"{disabled: disabled}\">\n        <span class=\"btn-placeholder\" v-show=\"showPlaceholder\">{{placeholder}}</span>\n        <span class=\"btn-content\">{{ selectedItems }}</span>\n        <span class=\"caret\"></span>\n    </button>\n    <ul class=\"dropdown-menu\">\n        <template v-if=\"options.length\">\n            <li v-if=\"search\" class=\"bs-searchbox\">\n                <input type=\"text\" placeholder=\"Search\" v-model=\"searchText\" class=\"form-control\"\n                autocomplete=\"off\">\n            </li>\n            <li v-for=\"option in options | filterBy searchText \" v-bind:id=\"option\" style=\"position:relative\">\n                <a @mousedown.prevent=\"select(option)\" style=\"cursor:pointer\">\n            {{ option }}\n            <span class=\"glyphicon glyphicon-ok check-mark\" v-show=\"isSelected(option)\"></span>\n          </a>\n            </li>\n        </template>\n        <slot v-else></slot>\n        <div class=\"notify\" v-show=\"showNotify\" transition=\"fadein\">Limit reached ({{limit}} items max).\n        </div>\n    </ul>\n</div>\n";
 
 /***/ },
-/* 18 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(19),
+	    template: __webpack_require__(26),
 
 	    components: {
-	        preview: __webpack_require__(20)
+	        preview: __webpack_require__(27)
 	    }
 	});
 
 
 /***/ },
-/* 19 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"old-view\">\n    <preview></preview>\n</div>\n";
 
 /***/ },
-/* 20 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var action = __webpack_require__(9);
-	var debug = __webpack_require__(3)('preview');
+	var action = __webpack_require__(16);
+	var debug = __webpack_require__(10)('preview');
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(21),
+	    template: __webpack_require__(28),
 
 	    vuex: {
 	        getters: {
@@ -3813,7 +4179,7 @@
 	        },
 	        code: {
 	            get: function() {
-	                return JSON.stringify(transformToOld(this.state));
+	                return JSON.stringify(transformToOld(this.state)) + ';;;';
 	            },
 	            set: function(value) {
 	                this.newCode = value;
@@ -3898,17 +4264,17 @@
 
 
 /***/ },
-/* 21 */
+/* 28 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"preview-view\">\n    <h3>代码</h3>\n    <div class=\"code\">\n        <textarea v-model=\"code\"></textarea>\n        <input type=\"button\" value=\"导入\" v-on:click=\"importData\">\n    </div>\n    <h3>预览</h3>\n    <div class=\"html\">\n        {{{html}}}\n    </div>\n</div>\n";
 
 /***/ },
-/* 22 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(10);
-	var debug = __webpack_require__(3)('store');
+	var util = __webpack_require__(17);
+	var debug = __webpack_require__(10)('store');
 
 
 	var saveLocal = function() {
@@ -3999,14 +4365,14 @@
 
 
 /***/ },
-/* 23 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var action = __webpack_require__(9);
-	var debug = __webpack_require__(3)('user');
+	var action = __webpack_require__(16);
+	var debug = __webpack_require__(10)('user');
 
 	module.exports = Vue.extend({
-	    template: __webpack_require__(24),
+	    template: __webpack_require__(31),
 
 	    vuex: {
 	        getters: {
@@ -4034,376 +4400,10 @@
 
 
 /***/ },
-/* 24 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user\">\n    <input v-model=\"name\" type=\"text\" placeholder=\"请填写名字..\">\n</div>\n";
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(26);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(31)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./index.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./index.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(27)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".font-12 {\n  font-size: 1.2rem; }\n\n.font-14 {\n  font-size: 1.4rem; }\n\n.transition-all {\n  transition: all 0.3s ease-out; }\n\n.nav {\n  background: #54D09F;\n  width: 100%;\n  height: 6rem;\n  padding: 0 1rem; }\n  .nav .router {\n    float: left; }\n    .nav .router a {\n      margin-right: 1rem; }\n    .nav .router h4 {\n      display: inline-block; }\n  .nav .user {\n    margin-top: 1.5rem;\n    float: right; }\n  .nav input {\n    border: none;\n    background-color: #54D09F; }\n\n.main {\n  position: fixed;\n  top: 6rem;\n  left: 0;\n  right: 0;\n  bottom: 0; }\n\n[contenteditable=true]:focus {\n  outline: none; }\n\n[contenteditable=true]:empty:before {\n  content: attr(placeholder);\n  display: block;\n  /* For Firefox */\n  color: #979797; }\n\ninput, button, select, textarea {\n  outline: none; }\n\ntextarea {\n  resize: none; }\n\n.board-view {\n  height: 100%;\n  padding: 0 1rem;\n  white-space: nowrap; }\n  .board-view .add-week {\n    cursor: pointer;\n    display: inline-block; }\n\n.plan-view {\n  width: 100%;\n  padding: 3rem 0;\n  height: 100%;\n  overflow: auto;\n  float: left; }\n  .plan-view .plan-list-view {\n    height: 100%; }\n\n.week-view {\n  background: #eee;\n  width: 40rem;\n  border-radius: 0.5rem;\n  height: 100%;\n  padding: 2rem;\n  padding-right: 1rem;\n  margin-right: 1rem;\n  display: inline-block;\n  position: relative; }\n  .week-view .week-title {\n    font-size: 1.8rem;\n    padding-bottom: 0.5rem; }\n  .week-view .task-list {\n    height: 95%;\n    overflow: auto;\n    padding-right: 1rem; }\n  .week-view .add-task {\n    color: #4A90E2;\n    cursor: pointer; }\n  .week-view .date-input {\n    border: none;\n    background: #eee;\n    width: 10rem; }\n  .week-view .week-delete {\n    position: absolute;\n    width: 2rem;\n    height: 2rem;\n    top: -1rem;\n    right: -1rem; }\n\n.border-gery, .task-view .task-detail .task-comment, .task-view .task-detail .select-option-list {\n  border-radius: 0.5rem;\n  border: solid 1px #979797; }\n\n.task-view {\n  background: #fff;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n  position: relative; }\n  .task-view .task-title {\n    height: 4rem;\n    border-radius: 0.5rem;\n    padding-top: 0.5rem;\n    box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.2); }\n    .task-view .task-title .task-status {\n      display: inline-block;\n      height: 2rem;\n      width: 2rem; }\n    .task-view .task-title .title {\n      display: inline-block;\n      width: 76%;\n      border: none; }\n  .task-view.t-close .task-detail {\n    height: 0;\n    margin-top: 0rem; }\n  .task-view.t-close .task-comment, .task-view.t-close .select-option-list {\n    display: none; }\n  .task-view .task-detail {\n    background: #fff;\n    border-radius: 0.5rem;\n    height: 20rem;\n    margin-top: 1rem; }\n    .task-view .task-detail .inner {\n      padding: 0.5rem; }\n    .task-view .task-detail .task-comment {\n      width: 100%;\n      padding: 0.3rem;\n      height: 11rem;\n      overflow: auto; }\n    .task-view .task-detail .select-option-list {\n      height: 6rem;\n      margin-bottom: 1rem; }\n    .task-view .task-detail .select-option-item {\n      float: left;\n      width: 25%;\n      height: 100%;\n      border-right: solid #979797 1px;\n      padding-left: .5rem; }\n      .task-view .task-detail .select-option-item:last-child {\n        border-right: none; }\n  .task-view .show-detail-icon {\n    float: right;\n    margin-top: 0.5rem;\n    margin-right: 1.5rem;\n    height: 2rem;\n    width: 2rem; }\n  .task-view .delete-task {\n    position: absolute;\n    width: 1rem;\n    height: 1rem;\n    top: -0.5rem;\n    right: 0; }\n\n.old-view {\n  margin: 1rem; }\n\n.preview-view .code textarea {\n  width: 60%;\n  min-height: 20rem; }\n\n[class^=\"icon-\"] {\n  display: inline-block;\n  height: 100%;\n  width: 100%;\n  cursor: pointer; }\n\n.icon-down {\n  background: url(" + __webpack_require__(28) + ");\n  background-size: 2rem 2rem; }\n\n.icon-left {\n  background: url(" + __webpack_require__(29) + ");\n  background-size: 2rem 2rem; }\n\n.icon-delete-svg, .icon-delete-week, .icon-delete-task {\n  background: url(" + __webpack_require__(30) + "); }\n\n.icon-delete-week {\n  background-size: 2rem 2rem; }\n\n.icon-delete-task {\n  background-size: 1rem 1rem; }\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M16 8c0-4.418-3.582-8-8-8s-8 3.582-8 8 3.582 8 8 8 8-3.582 8-8zM1.5 8c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M4.957 5.543l-1.414 1.414 4.457 4.457 4.457-4.457-1.414-1.414-3.043 3.043z'%3E%3C/path%3E %3C/svg%3E\""
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zM8 1.5c3.59 0 6.5 2.91 6.5 6.5s-2.91 6.5-6.5 6.5-6.5-2.91-6.5-6.5 2.91-6.5 6.5-6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.457 4.957l-1.414-1.414-4.457 4.457 4.457 4.457 1.414-1.414-3.043-3.043z'%3E%3C/path%3E %3C/svg%3E\""
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	module.exports = "\"data:image/svg+xml;charset=utf8,%3C?xml version='1.0' encoding='utf-8'?%3E %3C!-- Generated by IcoMoon.io --%3E %3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E %3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='16' height='16' viewBox='0 0 16 16'%3E %3Cpath fill='%23444' d='M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 14.5c-3.59 0-6.5-2.91-6.5-6.5s2.91-6.5 6.5-6.5 6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5z'%3E%3C/path%3E %3Cpath fill='%23444' d='M10.5 4l-2.5 2.5-2.5-2.5-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 2.5-2.5 2.5 2.5 1.5-1.5-2.5-2.5 2.5-2.5z'%3E%3C/path%3E %3C/svg%3E\""
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	var stylesInDom = {},
-		memoize = function(fn) {
-			var memo;
-			return function () {
-				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-				return memo;
-			};
-		},
-		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-		}),
-		getHeadElement = memoize(function () {
-			return document.head || document.getElementsByTagName("head")[0];
-		}),
-		singletonElement = null,
-		singletonCounter = 0,
-		styleElementsInsertedAtTop = [];
-
-	module.exports = function(list, options) {
-		if(false) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-
-		options = options || {};
-		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-		// By default, add <style> tags to the bottom of <head>.
-		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-		var styles = listToStyles(list);
-		addStylesToDom(styles, options);
-
-		return function update(newList) {
-			var mayRemove = [];
-			for(var i = 0; i < styles.length; i++) {
-				var item = styles[i];
-				var domStyle = stylesInDom[item.id];
-				domStyle.refs--;
-				mayRemove.push(domStyle);
-			}
-			if(newList) {
-				var newStyles = listToStyles(newList);
-				addStylesToDom(newStyles, options);
-			}
-			for(var i = 0; i < mayRemove.length; i++) {
-				var domStyle = mayRemove[i];
-				if(domStyle.refs === 0) {
-					for(var j = 0; j < domStyle.parts.length; j++)
-						domStyle.parts[j]();
-					delete stylesInDom[domStyle.id];
-				}
-			}
-		};
-	}
-
-	function addStylesToDom(styles, options) {
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			if(domStyle) {
-				domStyle.refs++;
-				for(var j = 0; j < domStyle.parts.length; j++) {
-					domStyle.parts[j](item.parts[j]);
-				}
-				for(; j < item.parts.length; j++) {
-					domStyle.parts.push(addStyle(item.parts[j], options));
-				}
-			} else {
-				var parts = [];
-				for(var j = 0; j < item.parts.length; j++) {
-					parts.push(addStyle(item.parts[j], options));
-				}
-				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-			}
-		}
-	}
-
-	function listToStyles(list) {
-		var styles = [];
-		var newStyles = {};
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i];
-			var id = item[0];
-			var css = item[1];
-			var media = item[2];
-			var sourceMap = item[3];
-			var part = {css: css, media: media, sourceMap: sourceMap};
-			if(!newStyles[id])
-				styles.push(newStyles[id] = {id: id, parts: [part]});
-			else
-				newStyles[id].parts.push(part);
-		}
-		return styles;
-	}
-
-	function insertStyleElement(options, styleElement) {
-		var head = getHeadElement();
-		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-		if (options.insertAt === "top") {
-			if(!lastStyleElementInsertedAtTop) {
-				head.insertBefore(styleElement, head.firstChild);
-			} else if(lastStyleElementInsertedAtTop.nextSibling) {
-				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-			} else {
-				head.appendChild(styleElement);
-			}
-			styleElementsInsertedAtTop.push(styleElement);
-		} else if (options.insertAt === "bottom") {
-			head.appendChild(styleElement);
-		} else {
-			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-		}
-	}
-
-	function removeStyleElement(styleElement) {
-		styleElement.parentNode.removeChild(styleElement);
-		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-		if(idx >= 0) {
-			styleElementsInsertedAtTop.splice(idx, 1);
-		}
-	}
-
-	function createStyleElement(options) {
-		var styleElement = document.createElement("style");
-		styleElement.type = "text/css";
-		insertStyleElement(options, styleElement);
-		return styleElement;
-	}
-
-	function createLinkElement(options) {
-		var linkElement = document.createElement("link");
-		linkElement.rel = "stylesheet";
-		insertStyleElement(options, linkElement);
-		return linkElement;
-	}
-
-	function addStyle(obj, options) {
-		var styleElement, update, remove;
-
-		if (options.singleton) {
-			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement(options));
-			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-		} else if(obj.sourceMap &&
-			typeof URL === "function" &&
-			typeof URL.createObjectURL === "function" &&
-			typeof URL.revokeObjectURL === "function" &&
-			typeof Blob === "function" &&
-			typeof btoa === "function") {
-			styleElement = createLinkElement(options);
-			update = updateLink.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-				if(styleElement.href)
-					URL.revokeObjectURL(styleElement.href);
-			};
-		} else {
-			styleElement = createStyleElement(options);
-			update = applyToTag.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-			};
-		}
-
-		update(obj);
-
-		return function updateStyle(newObj) {
-			if(newObj) {
-				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-					return;
-				update(obj = newObj);
-			} else {
-				remove();
-			}
-		};
-	}
-
-	var replaceText = (function () {
-		var textStore = [];
-
-		return function (index, replacement) {
-			textStore[index] = replacement;
-			return textStore.filter(Boolean).join('\n');
-		};
-	})();
-
-	function applyToSingletonTag(styleElement, index, remove, obj) {
-		var css = remove ? "" : obj.css;
-
-		if (styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(index, css);
-		} else {
-			var cssNode = document.createTextNode(css);
-			var childNodes = styleElement.childNodes;
-			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-			if (childNodes.length) {
-				styleElement.insertBefore(cssNode, childNodes[index]);
-			} else {
-				styleElement.appendChild(cssNode);
-			}
-		}
-	}
-
-	function applyToTag(styleElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-
-		if(media) {
-			styleElement.setAttribute("media", media)
-		}
-
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = css;
-		} else {
-			while(styleElement.firstChild) {
-				styleElement.removeChild(styleElement.firstChild);
-			}
-			styleElement.appendChild(document.createTextNode(css));
-		}
-	}
-
-	function updateLink(linkElement, obj) {
-		var css = obj.css;
-		var sourceMap = obj.sourceMap;
-
-		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-		}
-
-		var blob = new Blob([css], { type: "text/css" });
-
-		var oldSrc = linkElement.href;
-
-		linkElement.href = URL.createObjectURL(blob);
-
-		if(oldSrc)
-			URL.revokeObjectURL(oldSrc);
-	}
-
 
 /***/ }
 /******/ ]);

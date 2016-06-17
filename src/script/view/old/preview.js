@@ -30,7 +30,7 @@ module.exports = Vue.extend({
         },
         code: {
             get: function() {
-                return JSON.stringify(transformToOld(this.state));
+                return JSON.stringify(transformToOld(this.state)) + ';;;';
             },
             set: function(value) {
                 this.newCode = value;
