@@ -16,18 +16,24 @@ module.exports = Vue.extend({
 
     data: function() {
         return {
-            code: JSON.stringify(transformToOld({
-                name: this.name,
-                weekList: this.weekList
-            })) + ';;'
+            newCode: ''
         }
     },
 
     computed: {
         state: function() {
+            if (!this.name) alert('请在右上角处填写名字');
             return {
                 name: this.name,
                 weekList: this.weekList
+            }
+        },
+        code: {
+            get: function() {
+                return JSON.stringify(transformToOld(this.state));
+            },
+            set: function(value) {
+                this.newCode = value;
             }
         },
         html: function() {
@@ -37,9 +43,9 @@ module.exports = Vue.extend({
 
     methods: {
         importData: function() {
-            this._updateState(transformToNew(this.code));
+            this._updateState(transformToNew(this.newCode));
         }
-    }
+    },
 });
 
 var transformToNew = function(data) {

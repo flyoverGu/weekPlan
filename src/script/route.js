@@ -1,7 +1,5 @@
 var VueRouter = require('vue-router')
 
-require('./directive');
-
 var Board = require('./view/board');
 var Old = require('./view/old');
 

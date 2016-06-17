@@ -11,7 +11,7 @@ var dumpLocal = function() {
 }
 
 var state = dumpLocal() || {
-    name: '顾天桥',
+    name: '',
     weekList: []
 }
 

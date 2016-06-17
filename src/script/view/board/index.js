@@ -1,8 +1,8 @@
-var action = require('../action');
-var util = require('../util');
+var action = require('../../action');
+var util = require('../../util');
 
 module.exports = Vue.extend({
-    template: require('../template/board.html'),
+    template: require('../../template/board.html'),
 
     vuex: {
         actions: {
@@ -16,7 +16,7 @@ module.exports = Vue.extend({
     },
 
     components: {
-        week: require('./week/week'),
+        week: require('../week/week'),
     },
 
     methods: {
@@ -25,7 +25,7 @@ module.exports = Vue.extend({
             for (var i = 0; i < this.weekList.length; i++) {
                 if (this.weekList[i].date == today) {
                     alert(today + '的计划已经存在');
-                    return ;
+                    return;
                 }
             }
             this._addWeek();

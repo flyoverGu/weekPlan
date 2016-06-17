@@ -1,2 +1,2 @@
-require('./script/route.js');
+require('./script/app.js');
 require('./style/index.scss');
