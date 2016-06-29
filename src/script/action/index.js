@@ -5,7 +5,8 @@ module.exports = {
     deleteTask: makeAction('deleteTask'),
     updateTask: makeAction('updateTask'),
     updateState: makeAction('updateState'),
-    updateName: makeAction('updateName')
+    updateName: makeAction('updateName'),
+    updateClose: makeAction('updateClose')
 }
 
 function makeAction(type) {

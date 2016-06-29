@@ -13,8 +13,14 @@ module.exports = Vue.extend({
     vuex: {
         actions: {
             _updateTask: action.updateTask,
-            _deleteTask: action.deleteTask
+            _deleteTask: action.deleteTask,
+            _updateClose: action.updateClose
         },
+        getters: {
+            weekList: function(state) {
+                return state.weekList;
+            }
+        }
     },
 
     data: function() {
@@ -22,7 +28,6 @@ module.exports = Vue.extend({
             projectOptions: projectOptions,
             statusOptions: statusOptions,
             projectTypeOptions: projectTypeOptions,
-            isClose: true,
             project: [this.task.project],
             subProject: this.task.subProject,
             projectType: this.task.projectType,
@@ -36,6 +41,18 @@ module.exports = Vue.extend({
     computed: {
         subProjectOptions: function() {
             return map[this.project] || [];
+        },
+        isClose: {
+            get: function() {
+                var index = -1;
+                for (var i = 0; i < this.weekList.length; i++) {
+                    if (this.weekList[i].date == this.date) index = i;
+                }
+                return this.weekList[index].taskList[this.taskIndex] && this.weekList[index].taskList[this.taskIndex].isClose;
+            },
+            set: function(newV) {
+                this._updateClose(this.date, this.taskIndex, newV);
+            }
         }
     },
 

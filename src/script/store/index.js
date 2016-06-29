@@ -28,6 +28,7 @@ var mutations = {
     },
     addTask: function(state, date) {
         var index = findWeek(date);
+        closeAllTask(state, index);
         state.weekList[index].taskList.push(createTask());
         saveLocal();
     },
@@ -53,6 +54,23 @@ var mutations = {
         state.name = newState.name;
         state.weekList = newState.weekList;
         saveLocal();
+    },
+    updateClose: function(state, date, taskIndex, isClose) {
+        debug('isClose', isClose);
+        var index = findWeek(date);
+        if (!isClose) {
+            closeAllTask(state, index);
+        }
+        state.weekList[index].taskList[taskIndex]['isClose'] = isClose;
+        saveLocal();
+    },
+}
+
+var closeAllTask = function(state, index) {
+    var taskList = state.weekList[index].taskList;
+    debug(taskList);
+    for (var i = 0; i < taskList.length; i++) {
+        taskList[i].isClose = true;
     }
 }
 
@@ -80,6 +98,7 @@ var createTask = function() {
         task: '',
         status: '进行中',
         comment: '',
+        isClose: false
     }
 }
 

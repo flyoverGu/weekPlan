@@ -3763,7 +3763,8 @@
 	    deleteTask: makeAction('deleteTask'),
 	    updateTask: makeAction('updateTask'),
 	    updateState: makeAction('updateState'),
-	    updateName: makeAction('updateName')
+	    updateName: makeAction('updateName'),
+	    updateClose: makeAction('updateClose')
 	}
 
 	function makeAction(type) {
@@ -3861,8 +3862,14 @@
 	    vuex: {
 	        actions: {
 	            _updateTask: action.updateTask,
-	            _deleteTask: action.deleteTask
+	            _deleteTask: action.deleteTask,
+	            _updateClose: action.updateClose
 	        },
+	        getters: {
+	            weekList: function(state) {
+	                return state.weekList;
+	            }
+	        }
 	    },
 
 	    data: function() {
@@ -3870,7 +3877,6 @@
 	            projectOptions: projectOptions,
 	            statusOptions: statusOptions,
 	            projectTypeOptions: projectTypeOptions,
-	            isClose: true,
 	            project: [this.task.project],
 	            subProject: this.task.subProject,
 	            projectType: this.task.projectType,
@@ -3884,6 +3890,18 @@
 	    computed: {
 	        subProjectOptions: function() {
 	            return map[this.project] || [];
+	        },
+	        isClose: {
+	            get: function() {
+	                var index = -1;
+	                for (var i = 0; i < this.weekList.length; i++) {
+	                    if (this.weekList[i].date == this.date) index = i;
+	                }
+	                return this.weekList[index].taskList[this.taskIndex] && this.weekList[index].taskList[this.taskIndex].isClose;
+	            },
+	            set: function(newV) {
+	                this._updateClose(this.date, this.taskIndex, newV);
+	            }
 	        }
 	    },
 
@@ -4303,6 +4321,7 @@
 	    },
 	    addTask: function(state, date) {
 	        var index = findWeek(date);
+	        closeAllTask(state, index);
 	        state.weekList[index].taskList.push(createTask());
 	        saveLocal();
 	    },
@@ -4328,6 +4347,23 @@
 	        state.name = newState.name;
 	        state.weekList = newState.weekList;
 	        saveLocal();
+	    },
+	    updateClose: function(state, date, taskIndex, isClose) {
+	        debug('isClose', isClose);
+	        var index = findWeek(date);
+	        if (!isClose) {
+	            closeAllTask(state, index);
+	        }
+	        state.weekList[index].taskList[taskIndex]['isClose'] = isClose;
+	        saveLocal();
+	    },
+	}
+
+	var closeAllTask = function(state, index) {
+	    var taskList = state.weekList[index].taskList;
+	    debug(taskList);
+	    for (var i = 0; i < taskList.length; i++) {
+	        taskList[i].isClose = true;
 	    }
 	}
 
@@ -4355,6 +4391,7 @@
 	        task: '',
 	        status: '进行中',
 	        comment: '',
+	        isClose: false
 	    }
 	}
 
