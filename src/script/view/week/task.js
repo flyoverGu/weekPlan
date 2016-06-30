@@ -48,7 +48,7 @@ module.exports = Vue.extend({
                 for (var i = 0; i < this.weekList.length; i++) {
                     if (this.weekList[i].date == this.date) index = i;
                 }
-                return this.weekList[index].taskList[this.taskIndex] && this.weekList[index].taskList[this.taskIndex].isClose;
+                return this.weekList[index].taskList[this.taskIndex] && this.weekList[index].taskList[this.taskIndex].isClose || true;
             },
             set: function(newV) {
                 this._updateClose(this.date, this.taskIndex, newV);
